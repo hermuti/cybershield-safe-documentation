@@ -140,4 +140,32 @@ This tool does not replace emergency, legal, or law enforcement services.
 - Integration with survivor support organizations
 - Accessibility improvements
 
+---
+
+## Getting Started (Developer)
+
+This repository contains a minimal, privacy-first frontend implementation that implements the core
+flows described above: a step-based documentation form, optional evidence upload, guidance, and
+client-side PDF export. The implementation is intentionally frontend-only so core features work
+without an account or server.
+
+Prerequisites:
+- Node.js (16+ recommended) and `npm` installed.
+
+Install dependencies and run the dev server (Windows `cmd.exe`):
+
+```
+cd `c:\Users\Admin\repos\cybershield-safe-documentation`
+npm install
+npm run dev
+```
+
+Open the URL reported by Vite (usually `http://localhost:5173`).
+
+Notes:
+- PDF export uses client-side libraries (`jsPDF`) and will include uploaded images when possible.
+- Saved records are stored locally in the browser's `localStorage` (no server, no tracking).
+- To add backend-powered account features, we can scaffold a small API next.
+
+
 
