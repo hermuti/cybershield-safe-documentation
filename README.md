@@ -83,19 +83,11 @@ After guidance, users can choose:
 
 ---
 
-### 🟦 Page 4: Optional Login
-Login is only required if the user wants to:
-- Save reports
-- Track repeated incidents
-- Maintain timelines
-
----
-
-### 🟦 Page 5: My Records Dashboard (Logged-in Users Only)
+### 🟦 Page 5: My Records Dashboard
 **in order to : Save & Track Over Time**
 - Optional account creation
 - Enables tracking multiple incidents or cases
-
+  
 Users can:
 - Add incidents
 - Export case PDFs
