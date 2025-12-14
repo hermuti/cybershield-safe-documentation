@@ -476,8 +476,10 @@ const guidanceDB = {
   }
 }
 
+import amLocale from "../locales/am.json";
+
 // Helper function to get personalized guidance
-export function getPersonalizedGuidance(categories, platform) {
+export function getPersonalizedGuidance(categories, platform, lang = "en") {
   const result = {
     abusesAffected: [],
     sections: {},
@@ -502,10 +504,18 @@ export function getPersonalizedGuidance(categories, platform) {
     const categoryData = guidanceDB[category]
     if (categoryData) {
       result.abusesAffected.push(category)
-      
-      // Get platform-specific guidance if available, otherwise use default
-      const platformSpecific = categoryData[platform] || categoryData.default
-      result.sections[category] = platformSpecific
+
+      // If Amharic requested and available, use translations from amLocale.guidance
+      if (lang === "am" && amLocale && amLocale.guidance && amLocale.guidance[category]) {
+        const amCat = amLocale.guidance[category]
+        // prefer platform-specific in Amharic, otherwise default
+        const platformSpecific = amCat[platform] || amCat.default || amCat
+        result.sections[category] = platformSpecific
+      } else {
+        // Get platform-specific guidance if available, otherwise use default (English)
+        const platformSpecific = categoryData[platform] || categoryData.default
+        result.sections[category] = platformSpecific
+      }
     }
   })
 
@@ -521,9 +531,12 @@ export function getPersonalizedGuidance(categories, platform) {
     }
   }
 
-  // Attach platform-level guidance if available
+  // Attach platform-level guidance if available (localized if possible)
   if (platform) {
-    const p = platformGuidance[platform] || platformGuidance['Other']
+    let p = platformGuidance[platform] || platformGuidance['Other']
+    if (lang === "am" && amLocale && amLocale.platformGuidance && amLocale.platformGuidance[platform]) {
+      p = amLocale.platformGuidance[platform]
+    }
     result.platformHelp = p
   }
 

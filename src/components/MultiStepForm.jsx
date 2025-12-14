@@ -1,68 +1,103 @@
-import React from 'react'
-import { generatePDF } from '../utils/pdf'
-import { encryptObject, decryptObject, deriveKey, generateSalt } from '../utils/crypto'
-import { getPersonalizedGuidance } from '../utils/guidanceDatabase'
+import React from "react";
+import { generatePDF } from "../utils/pdf";
+import {
+  encryptObject,
+  decryptObject,
+  deriveKey,
+  generateSalt,
+} from "../utils/crypto";
+import { getPersonalizedGuidance } from "../utils/guidanceDatabase";
+import { useTranslation } from "../i18n.jsx";
 
 function Home({ onStart, setData }) {
+  const { t } = useTranslation();
   const attacks = [
-    { key: 'Cyber flashing', icon: '🔥', title: 'Cyber Flashing', short: 'Unsolicited explicit images/videos sent to you', causes: ['Direct messages from unknown accounts','Shared to group chats without consent','Someone posts an image tagging you'] },
-    { key: 'Digital voyeurism', icon: '👁️', title: 'Digital Voyeurism', short: 'Secret recording/sharing of private moments', causes: ['Hidden camera or livestream capture','Screenshots taken during private calls','Recordings shared to others without consent'] },
-    { key: 'Morphing / Transmogrification', icon: '🎭', title: 'Morphing', short: 'Your photo edited into explicit content', causes: ['Image taken and edited by a third party','AI tools used to place your likeness into new content','Someone reposts an altered image claiming it is you'] },
-    { key: 'Non-consensual dissemination', icon: '📸', title: 'Non-Consensual Dissemination', short: 'Sharing intimate images without consent', causes: ['A former partner shares private images','Hacked account leads to leaks','Someone downloads and reposts content without permission'] },
-    { key: 'Sexploitation', icon: '💀', title: 'Sexploitation', short: 'Coercing sexual acts or content through manipulation', causes: ['Pressure or manipulation to perform sexual acts','Blackmail to force content creation','Threats or emotional coercion to obtain images'] },
-    { key: 'Cyber stalking', icon: '🐺', title: 'Cyber Stalking', short: 'Repeated, unwanted monitoring/contact', causes: ['Repeated messages or comments across platforms','Using location tags or photos to follow movements','Creating false profiles to monitor you'] },
-    { key: 'Doxing', icon: '📍', title: 'Doxing', short: 'Publishing private info to harm you', causes: ['Someone compiles public records and shares them','Posting screenshots with personal details','Leaking private conversations that include identifying info'] },
-    { key: 'Gender-based hate speech', icon: '☠️', title: 'Gender-Based Hate Speech', short: 'Targeted abuse because of your gender', causes: ['Comments targeting gender identity on public posts','Coordinated harassment campaigns focused on gender','Using slurs or threats in replies and DMs'] },
-    { key: 'Online sexual harassment & bullying', icon: '😈', title: 'Online Sexual Harassment', short: 'Unwanted sexual comments or advances', causes: ['Repeated unsolicited sexual messages','Sexual comments on your public posts','Persistent requests or pressure in chat'] },
-    { key: 'Online threats & blackmail', icon: '⚡', title: 'Online Threats & Blackmail', short: 'Threats to expose or harm', causes: ['Threats to release content unless you comply','Direct messages demanding money or actions','Public posts threatening exposure'] },
-    { key: 'Sextortion', icon: '🔐', title: 'Sextortion', short: 'Pay or I will expose your intimate images', causes: ['Someone threatens to share intimate content unless paid','Hacked accounts used to harvest compromising material','Scammers posing as lovers to extract media'] },
-    { key: 'Identity theft / Impersonation', icon: '🎭', title: 'Impersonation', short: 'Someone pretending to be you', causes: ['Fake profiles created in your name','Using your photos to set up accounts','Messages sent to others pretending to be you'] },
-    { key: 'Online grooming', icon: '🎣', title: 'Online Grooming', short: 'Building trust to manipulate (often minors)', causes: ['Gradual relationship-building to lower defenses','Soliciting photos or private contact over time','Encouraging secret conversations away from parents/caregivers'] },
-    { key: 'Zoom bombing', icon: '💥', title: 'Zoom Bombing', short: 'Intruding calls to harass with hate/obscenity', causes: ['Uninvited participants join public meetings','Meeting links shared publicly or in insecure places','Screen-sharing abusive content during calls'] }
-  ]
+    { id: "cyber_flashing", key: "Cyber flashing", icon: "🔥" },
+    { id: "digital_voyeurism", key: "Digital voyeurism", icon: "👁️" },
+    {
+      id: "morphing_transmogrification",
+      key: "Morphing / Transmogrification",
+      icon: "🎭",
+    },
+    {
+      id: "non_consenting_dissemination",
+      key: "Non-consensual dissemination",
+      icon: "📸",
+    },
+    { id: "sexploitation", key: "Sexploitation", icon: "💀" },
+    { id: "cyber_stalking", key: "Cyber stalking", icon: "🐺" },
+    { id: "doxing", key: "Doxing", icon: "📍" },
+    {
+      id: "gender_based_hate_speech",
+      key: "Gender-based hate speech",
+      icon: "☠️",
+    },
+    {
+      id: "online_sexual_harassment_bullying",
+      key: "Online sexual harassment & bullying",
+      icon: "😈",
+    },
+    {
+      id: "online_threats_blackmail",
+      key: "Online threats & blackmail",
+      icon: "⚡",
+    },
+    { id: "sextortion", key: "Sextortion", icon: "🔐" },
+    {
+      id: "identity_theft_impersonation",
+      key: "Identity theft / Impersonation",
+      icon: "🎭",
+    },
+    { id: "online_grooming", key: "Online grooming", icon: "🎣" },
+    { id: "zoom_bombing", key: "Zoom bombing", icon: "💥" },
+  ];
 
-  const [selected, setSelected] = React.useState(null)
+  const [selected, setSelected] = React.useState(null);
 
   function openAndStart(key) {
     // prefill the draft with the selected category and open the document form
-    const draft = { narrative: '', categories: [key], platform: '' }
-    if (setData) setData(draft)
-    onStart()
+    const draft = { narrative: "", categories: [key], platform: "" };
+    if (setData) setData(draft);
+    onStart();
   }
 
   return (
     <div className="card large-card home-root interactive-home">
       <header className="home-header">
-        <h2>You are not alone</h2>
-        <p className="lead">CyberShield is a secure, private tool designed to empower you in the face of online harassment. We provide a survivor-centered space to take control of your experience.</p>
+        <h2>{t("home.title")}</h2>
+        <p className="lead">{t("home.lead")}</p>
       </header>
 
       <section className="intro-grid">
         <div className="intro-card">
           <div className="intro-icon">🔒</div>
-          <h4>Private & Secure Documentation</h4>
-          <p>Your safety is our priority. Document incidents in your own words—with or without evidence—in a completely confidential space.</p>
+          <h4>{t("home.intro.card1.title")}</h4>
+          <p>{t("home.intro.card1.desc")}</p>
         </div>
         <div className="intro-card">
           <div className="intro-icon">🧭</div>
-          <h4>Personalized Action Guidance</h4>
-          <p>Receive clear, practical steps tailored to your specific situation and platform.</p>
+          <h4>{t("home.intro.card2.title")}</h4>
+          <p>{t("home.intro.card2.desc")}</p>
         </div>
         <div className="intro-card">
           <div className="intro-icon">🗂️</div>
-          <h4>Control Your Records</h4>
-          <p>Choose to download a one-time PDF or save encrypted records to your device.</p>
+          <h4>{t("home.intro.card3.title")}</h4>
+          <p>{t("home.intro.card3.desc")}</p>
         </div>
       </section>
 
       <section className="attack-identifier">
-        <h3>🛡️ The Attack Identifier</h3>
-        <p className="form-help">Click any shield to reveal a quick definition, examples, and immediate tips.</p>
+        <h3>{t("home.attack_identifier_title")}</h3>
+        <p className="form-help">{t("home.attack_help")}</p>
         <div className="attack-grid">
-          {attacks.map(a => (
-            <button key={a.key} className={`attack-card ${selected===a.key? 'active':''}`} onClick={() => setSelected(selected===a.key? null : a.key)}>
+          {attacks.map((a) => (
+            <button
+              key={a.key}
+              className={`attack-card ${selected === a.key ? "active" : ""}`}
+              onClick={() => setSelected(selected === a.key ? null : a.key)}
+            >
               <div className="attack-icon">{a.icon}</div>
-              <div className="attack-title">{a.title}</div>
+              <div className="attack-title">{t(`attacks.${a.id}.title`)}</div>
             </button>
           ))}
         </div>
@@ -70,106 +105,140 @@ function Home({ onStart, setData }) {
         {selected && (
           <div className="attack-details card">
             {(() => {
-              const info = attacks.find(x => x.key === selected)
+              const info = attacks.find((x) => x.key === selected);
               return (
                 <>
-                  <h4>{info.icon} {info.title}</h4>
-                  <p>{info.short}</p>
-                  {info.causes && (
+                  <h4>
+                    {info.icon} {t(`attacks.${info.id}.title`)}
+                  </h4>
+                  <p>{t(`attacks.${info.id}.short`)}</p>
+                  {t(`attacks.${info.id}.causes`) && (
                     <>
-                      <h4>How this can happen</h4>
+                      <h4>{t("home.how_this_happens")}</h4>
                       <ul>
-                        {info.causes.map((c, i) => <li key={i}>{c}</li>)}
+                        {t(`attacks.${info.id}.causes`).map((c, i) => (
+                          <li key={i}>{c}</li>
+                        ))}
                       </ul>
                     </>
                   )}
                   <div className="actions">
-                    <button onClick={() => openAndStart(selected)}>Start Documenting this</button>
-                    <button onClick={() => setSelected(null)}>Close</button>
+                    <button onClick={() => openAndStart(selected)}>
+                      {t("home.start_documenting_this")}
+                    </button>
+                    <button onClick={() => setSelected(null)}>
+                      {t("home.close")}
+                    </button>
                   </div>
                 </>
-              )
+              );
             })()}
           </div>
         )}
       </section>
 
       <section className="interactive-bottom">
-        <div className="quick-reference">
-          <h4>Quick Reference Cards</h4>
-          <div className="quick-cards">
-            <div className="quick-card">
-              <h5>Facing Doxing?</h5>
-              <ul>
-                <li>DON'T engage</li>
-                <li>DO document & report</li>
-                <li>CONTACT: WithoutMyConsent.org</li>
-              </ul>
-            </div>
-            <div className="quick-card">
-              <h5>Received Cyber Flashing?</h5>
-              <ul>
-                <li>DO report</li>
-                <li>DO save screenshots</li>
-                <li>REMEMBER: You're not at fault</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
         <div className="find-match">
-          <h4>Find Your Match</h4>
-          <p className="form-help">Not sure what happened? Below are short example scenarios — these are illustrative examples rather than primary action buttons. Tap any example to start documenting.</p>
+          <h4>{t("home.find_match.title")}</h4>
+          <p className="form-help">{t("home.find_match.help")}</p>
           <div className="example-grid">
-            <div className="example-card" onClick={() => openAndStart('Doxing')} role="button" tabIndex={0} onKeyDown={(e)=>{ if(e.key==='Enter') openAndStart('Doxing') }}>
-              <div className="example-title">Private info was shared</div>
-              <div className="example-sub">→ Doxing</div>
+            <div
+              className="example-card"
+              onClick={() => openAndStart("Doxing")}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") openAndStart("Doxing");
+              }}
+            >
+              <div className="example-title">{t("examples.doxing.title")}</div>
+              <div className="example-sub">{t("examples.doxing.sub")}</div>
             </div>
-            <div className="example-card" onClick={() => openAndStart('Sextortion')} role="button" tabIndex={0} onKeyDown={(e)=>{ if(e.key==='Enter') openAndStart('Sextortion') }}>
-              <div className="example-title">Intimate images involved</div>
-              <div className="example-sub">→ Sextortion</div>
+            <div
+              className="example-card"
+              onClick={() => openAndStart("Sextortion")}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") openAndStart("Sextortion");
+              }}
+            >
+              <div className="example-title">
+                {t("examples.sextortion.title")}
+              </div>
+              <div className="example-sub">{t("examples.sextortion.sub")}</div>
             </div>
-            <div className="example-card" onClick={() => openAndStart('Identity theft / Impersonation')} role="button" tabIndex={0} onKeyDown={(e)=>{ if(e.key==='Enter') openAndStart('Identity theft / Impersonation') }}>
-              <div className="example-title">Someone pretending to be me</div>
-              <div className="example-sub">→ Impersonation</div>
+            <div
+              className="example-card"
+              onClick={() => openAndStart("Identity theft / Impersonation")}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter")
+                  openAndStart("Identity theft / Impersonation");
+              }}
+            >
+              <div className="example-title">
+                {t("examples.impersonation.title")}
+              </div>
+              <div className="example-sub">
+                {t("examples.impersonation.sub")}
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       <div className="home-cta actions">
-        <button onClick={() => { setSelected(null); onStart() }}>Start Documenting — Take the first step</button>
+        <button
+          onClick={() => {
+            setSelected(null);
+            onStart();
+          }}
+        >
+          {t("home.cta_start")}
+        </button>
       </div>
     </div>
-  )
+  );
 }
 
 function DocumentForm({ data, setData, onNext }) {
   // keep a local copy while editing, then commit
-  const [local, setLocal] = React.useState(data)
-  React.useEffect(() => setLocal(data), [data])
+  const [local, setLocal] = React.useState(data);
+  React.useEffect(() => setLocal(data), [data]);
+  const { t } = useTranslation();
 
   function onFileChange(e) {
-    const files = Array.from(e.target.files)
-    files.forEach(file => {
-      const reader = new FileReader()
+    const files = Array.from(e.target.files);
+    files.forEach((file) => {
+      const reader = new FileReader();
       reader.onload = (ev) => {
-        setLocal(prev => ({ ...prev, evidence: [...(prev.evidence||[]), { name: file.name, dataUrl: ev.target.result }] }))
-      }
-      reader.readAsDataURL(file)
-    })
+        setLocal((prev) => ({
+          ...prev,
+          evidence: [
+            ...(prev.evidence || []),
+            { name: file.name, dataUrl: ev.target.result },
+          ],
+        }));
+      };
+      reader.readAsDataURL(file);
+    });
   }
 
   function toggleCategory(cat) {
-    setLocal(prev => ({
+    setLocal((prev) => ({
       ...prev,
-      categories: prev.categories && prev.categories.includes(cat) ? prev.categories.filter(c => c !== cat) : [...(prev.categories||[]), cat]
-    }))
+      categories:
+        prev.categories && prev.categories.includes(cat)
+          ? prev.categories.filter((c) => c !== cat)
+          : [...(prev.categories || []), cat],
+    }));
   }
 
   function saveAndNext() {
-    setData(local)
-    onNext()
+    setData(local);
+    onNext();
   }
 
   return (
@@ -177,32 +246,72 @@ function DocumentForm({ data, setData, onNext }) {
       <div className="document-hero">
         <div className="hero-icon">📝</div>
         <div>
-          <h2>Document the Experience</h2>
-          <p className="form-welcome">You're doing an important thing — documenting details helps you preserve an accurate record. Only include what you feel safe sharing.</p>
+          <h2>{t("document.title")}</h2>
+          <p className="form-welcome">{t("document.welcome")}</p>
         </div>
       </div>
 
       <div className="field-group">
-        <label className="field-label">1. What happened? (Your narrative)</label>
-        <textarea className="large-input" value={local.narrative || ''} onChange={e => setLocal({ ...local, narrative: e.target.value })} placeholder="e.g., I received threatening messages from @badactor on 2025-11-30 at 9pm..." />
-        <div className="field-help">Include dates, times, usernames, and exact messages where possible.</div>
+        <label className="field-label">{t("document.q1_label")}</label>
+        <textarea
+          className="large-input"
+          value={local.narrative || ""}
+          onChange={(e) => setLocal({ ...local, narrative: e.target.value })}
+          placeholder="e.g., I received threatening messages from @badactor on 2025-11-30 at 9pm..."
+        />
+        <div className="field-help">{t("document.q1_help")}</div>
       </div>
 
       <div className="field-group">
-        <label className="field-label">2. Type of online abuse (Select all that apply)</label>
+        <label className="field-label">{t("document.q2_label")}</label>
         <div className="checkbox-grid">
-          {['Cyber flashing','Cyber stalking','Digital voyeurism','Doxing','Gender-based hate speech','Identity theft / Impersonation','Morphing / Transmogrification','Non-consensual dissemination','Online grooming','Online sexual harassment & bullying','Online threats & blackmail','Sextortion','Sexploitation','Zoom bombing','Other'].map(cat => (
-            <label key={cat} className="checkbox-pill">
-              <input type="checkbox" checked={(local.categories||[]).includes(cat)} onChange={() => toggleCategory(cat)} />
-              <span>{cat}</span>
-            </label>
-          ))}
+          {(() => {
+            const categoryKeys = [
+              "Cyber flashing",
+              "Cyber stalking",
+              "Digital voyeurism",
+              "Doxing",
+              "Gender-based hate speech",
+              "Identity theft / Impersonation",
+              "Morphing / Transmogrification",
+              "Non-consensual dissemination",
+              "Online grooming",
+              "Online sexual harassment & bullying",
+              "Online threats & blackmail",
+              "Sextortion",
+              "Sexploitation",
+              "Zoom bombing",
+              "Other",
+            ];
+
+            function slugify(s) {
+              return s
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, "_")
+                .replace(/^_|_$/g, "");
+            }
+
+            return categoryKeys.map((cat) => (
+              <label key={cat} className="checkbox-pill">
+                <input
+                  type="checkbox"
+                  checked={(local.categories || []).includes(cat)}
+                  onChange={() => toggleCategory(cat)}
+                />
+                <span>{t(`categories.${slugify(cat)}`) || cat}</span>
+              </label>
+            ));
+          })()}
         </div>
       </div>
 
       <div className="field-group">
-        <label className="field-label">3. Where it happened (Select primary platform)</label>
-        <select className="platform-select" value={local.platform || ''} onChange={e => setLocal({ ...local, platform: e.target.value })}>
+        <label className="field-label">{t("document.q3_label")}</label>
+        <select
+          className="platform-select"
+          value={local.platform || ""}
+          onChange={(e) => setLocal({ ...local, platform: e.target.value })}
+        >
           <option value="">-- select --</option>
           <option>Facebook</option>
           <option>Instagram</option>
@@ -217,58 +326,109 @@ function DocumentForm({ data, setData, onNext }) {
           <option>Other</option>
         </select>
 
-        {local.platform === 'Other' && (
-          <input className="small-input" type="text" value={local.platformOther || ''} onChange={e => setLocal({ ...local, platformOther: e.target.value })} placeholder="Describe the platform (e.g., private forum)" />
+        {local.platform === "Other" && (
+          <input
+            className="small-input"
+            type="text"
+            value={local.platformOther || ""}
+            onChange={(e) =>
+              setLocal({ ...local, platformOther: e.target.value })
+            }
+            placeholder="Describe the platform (e.g., private forum)"
+          />
         )}
       </div>
 
       <div className="field-group">
-        <label className="field-label">4. Optional evidence (screenshots, files)</label>
-        <div className="field-help">You are not required to upload anything. Text documentation is valid. If you do upload, keep copies in a secure place.</div>
-        <input className="file-input" type="file" multiple onChange={onFileChange} />
+        <label className="field-label">{t("document.q4_label")}</label>
+        <div className="field-help">{t("document.q4_help")}</div>
+        <input
+          className="file-input"
+          type="file"
+          multiple
+          onChange={onFileChange}
+        />
 
         <div className="evidence-list">
-          {(local.evidence||[]).map((ev, i) => (
-            <div key={i} className="evidence-item">{ev.name}</div>
+          {(local.evidence || []).map((ev, i) => (
+            <div key={i} className="evidence-item">
+              {ev.name}
+            </div>
           ))}
         </div>
       </div>
 
-      <div className="actions" style={{justifyContent: 'center'}}>
-        <button className="primary-large" onClick={saveAndNext}>Review & Next</button>
+      <div className="actions" style={{ justifyContent: "center" }}>
+        <button className="primary-large" onClick={saveAndNext}>
+          {t("document.review_next")}
+        </button>
       </div>
     </div>
-  )
+  );
 }
 
 function Guidance({ data, onNext, onBack }) {
   // Get personalized guidance based on user's selections
-  const guidance = getPersonalizedGuidance(data.categories, data.platform)
-  const abuseList = guidance.abusesAffected.join(' & ')
-  const platform = data.platform || 'an unknown platform'
+  const { t, lang } = useTranslation();
+  const guidance = getPersonalizedGuidance(data.categories, data.platform, lang);
+  const platform = data.platform || (lang === "am" ? "አልታወቀ መድረክ" : "an unknown platform");
+  // localize the abuse list (use category keys -> localized category labels)
+  function slugify(s) {
+    return String(s || "")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "_")
+      .replace(/^_|_$/g, "")
+  }
+  const abuseList = (guidance.abusesAffected || []).map((c) => {
+    const key = slugify(c)
+    const label = t(`categories.${key}`)
+    return label || c
+  }).join(" & ");
 
   return (
     <div className="card large-card">
-      <h2>Your Personalized Action Plan</h2>
-      <p>Based on your report of <strong>{abuseList}</strong> on <strong>{platform}</strong>, here are tailored steps to consider. You choose what feels right for you.</p>
+      <h2>{t("guidance.title")}</h2>
+      <p>
+        {(() => {
+          const tmpl = t("guidance.full")
+          if (tmpl && tmpl.includes("{abuseList}")) {
+            return tmpl.replace("{abuseList}", abuseList).replace("{platform}", platform)
+          }
+          return (
+            <>
+              {t("guidance.based_on")} <strong>{abuseList}</strong> {t("guidance.on_platform")} <strong>{platform}</strong>, {t("guidance.disclaimer")}
+            </>
+          )
+        })()}
+      </p>
 
       {guidance.platformHelp && (
         <div className="guidance-section">
           <h3>Platform-specific steps for {guidance.platformHelp.name}</h3>
           <ul>
-            {guidance.platformHelp.steps.map((s, i) => <li key={i}>{s}</li>)}
+            {guidance.platformHelp.steps.map((s, i) => (
+              <li key={i}>{s}</li>
+            ))}
           </ul>
-          {guidance.platformHelp.note && <p style={{marginTop:8,color:'#444'}}>{guidance.platformHelp.note}</p>}
+          {guidance.platformHelp.note && (
+            <p style={{ marginTop: 8, color: "#444" }}>
+              {guidance.platformHelp.note}
+            </p>
+          )}
         </div>
       )}
 
-      {Object.entries(guidance.sections).map(([categoryKey, sections]) => (
-        <div key={categoryKey} className="guidance-section">
-          {categoryKey !== 'generic' && <h3>For {categoryKey}</h3>}
-          
+          {Object.entries(guidance.sections).map(([categoryKey, sections]) => (
+            <div key={categoryKey} className="guidance-section">
+              {categoryKey !== "generic" && (
+                <h3>
+                  {t("guidance.for_prefix")} {t(`categories.${categoryKey.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_|_$/g, "")}`)}
+                </h3>
+              )}
+
           {sections.immediate && (
             <>
-              <h4>1. Immediate Actions</h4>
+              <h4>{t("guidance.immediate_title")}</h4>
               <ul>
                 {sections.immediate.map((item, idx) => (
                   <li key={idx}>{item}</li>
@@ -279,21 +439,21 @@ function Guidance({ data, onNext, onBack }) {
 
           {sections.platformAction && (
             <>
-              <h4>2. Report to the Platform</h4>
+              <h4>{t("guidance.report_title")}</h4>
               <p>{sections.platformAction}</p>
             </>
           )}
 
           {sections.evidence && (
             <>
-              <h4>3. Document & Preserve Evidence</h4>
+              <h4>{t("guidance.evidence_title")}</h4>
               <p>{sections.evidence}</p>
             </>
           )}
 
           {sections.support && (
             <>
-              <h4>4. Seek Support</h4>
+              <h4>{t("guidance.support_title")}</h4>
               <p>{sections.support}</p>
             </>
           )}
@@ -301,30 +461,35 @@ function Guidance({ data, onNext, onBack }) {
       ))}
 
       <div className="guidance-final-note">
-        <p><strong>Remember:</strong> You are not alone. This documentation is for you—to help you take control and make informed choices. Share it with trusted people, law enforcement, or legal counsel as you see fit.</p>
+        <p>
+          <strong>{t("guidance.remember_prefix")}</strong> {t("guidance.remember_note")}
+        </p>
       </div>
 
       <div className="actions">
-        <button onClick={onBack}>Back</button>
-        <button onClick={onNext}>Proceed to Download / Save</button>
+        <button onClick={onBack}>{t("nav.back")}</button>
+        <button onClick={onNext}>{t("nav.proceed_save")}</button>
       </div>
     </div>
-  )
+  );
 }
 
 function Review({ data, onDownload, onSaveLocal, onBack }) {
+  const { t } = useTranslation();
   return (
     <div className="card large-card review-container">
       <div className="review-header">
         <div className="review-icon">✓</div>
-        <h2>Review Your Documentation</h2>
-        <p className="review-subtitle">Here's what you're about to save or export. Make sure everything looks right.</p>
+        <h2>{t("review.title")}</h2>
+        <p className="review-subtitle">{t("review.subtitle")}</p>
       </div>
 
       <div className="review-section">
         <div className="review-field">
           <label className="review-label">📝 Your Narrative</label>
-          <p className="review-value narrative">{data.narrative || '(none)'}</p>
+          <p className="review-value narrative">
+            {data.narrative || t("review.none")}
+          </p>
         </div>
       </div>
 
@@ -335,7 +500,9 @@ function Review({ data, onDownload, onSaveLocal, onBack }) {
             <div className="review-tags">
               {(data.categories || []).length > 0 ? (
                 (data.categories || []).map((cat, i) => (
-                  <span key={i} className="review-tag">{cat}</span>
+                  <span key={i} className="review-tag">
+                    {cat}
+                  </span>
                 ))
               ) : (
                 <p className="review-value">(none)</p>
@@ -347,7 +514,7 @@ function Review({ data, onDownload, onSaveLocal, onBack }) {
         <div className="review-section">
           <div className="review-field">
             <label className="review-label">🌐 Platform</label>
-            <p className="review-value">{data.platform || '(none)'}</p>
+            <p className="review-value">{data.platform || "(none)"}</p>
           </div>
         </div>
       </div>
@@ -366,184 +533,265 @@ function Review({ data, onDownload, onSaveLocal, onBack }) {
                 ))}
               </ul>
             ) : (
-              <p className="review-value">(no files attached)</p>
+              <p className="review-value">{t("review.no_files")}</p>
             )}
           </div>
         </div>
       </div>
 
       <div className="review-actions">
-        <button className="review-btn-back" onClick={onBack}>← Back to Edit</button>
-        <button className="review-btn-primary" onClick={() => onDownload(data)}>⬇️ Download PDF</button>
-        <button className="review-btn-save" onClick={() => onSaveLocal(data)}>💾 Save Encrypted</button>
+        <button className="review-btn-back" onClick={onBack}>
+          ← {t("nav.back")} to Edit
+        </button>
+        <button className="review-btn-primary" onClick={() => onDownload(data)}>
+          {t("actions.download_pdf")}
+        </button>
+        <button className="review-btn-save" onClick={() => onSaveLocal(data)}>
+          {t("actions.save_encrypted")}
+        </button>
       </div>
     </div>
-  )
+  );
 }
 
 function MyRecords({ onBack, refreshSavedCount, setStep, setData }) {
-  const [wrappers, setWrappers] = React.useState(() => JSON.parse(localStorage.getItem('cybershield-saved-encrypted') || '[]'))
-  const [records, setRecords] = React.useState([])
+  const [wrappers, setWrappers] = React.useState(() =>
+    JSON.parse(localStorage.getItem("cybershield-saved-encrypted") || "[]")
+  );
+  const [records, setRecords] = React.useState([]);
+  const { t } = useTranslation();
 
   // Auto-derive the same browser-based key used for encryption
   React.useEffect(() => {
     async function load() {
-      const w = JSON.parse(localStorage.getItem('cybershield-saved-encrypted') || '[]')
-      setWrappers(w)
-      
+      const w = JSON.parse(
+        localStorage.getItem("cybershield-saved-encrypted") || "[]"
+      );
+      setWrappers(w);
+
       // Generate a consistent browser-based key for decryption
-      const browserSalt = localStorage.getItem('cybershield-browser-salt')
-      let cryptoKey = null
+      const browserSalt = localStorage.getItem("cybershield-browser-salt");
+      let cryptoKey = null;
       if (browserSalt) {
         try {
-          cryptoKey = await deriveKey('browser-local-default', browserSalt)
+          cryptoKey = await deriveKey("browser-local-default", browserSalt);
         } catch (e) {
-          console.error('Failed to derive decryption key:', e)
+          console.error("Failed to derive decryption key:", e);
         }
       }
 
-      const acc = []
+      const acc = [];
       for (const item of w) {
         try {
-          const plain = cryptoKey ? await decryptObject(item.encrypted, cryptoKey) : null
-          acc.push({ id: item.id, createdAt: item.createdAt, plain: plain || { narrative: '(encrypted)', categories: [], platform: '' } })
+          const plain = cryptoKey
+            ? await decryptObject(item.encrypted, cryptoKey)
+            : null;
+          acc.push({
+            id: item.id,
+            createdAt: item.createdAt,
+            plain: plain || {
+              narrative: "(encrypted)",
+              categories: [],
+              platform: "",
+            },
+          });
         } catch (e) {
-          acc.push({ id: item.id, createdAt: item.createdAt, plain: { narrative: '(encrypted)', categories: [], platform: '' } })
+          acc.push({
+            id: item.id,
+            createdAt: item.createdAt,
+            plain: { narrative: "(encrypted)", categories: [], platform: "" },
+          });
         }
       }
-      setRecords(acc)
+      setRecords(acc);
     }
-    load()
-  }, [refreshSavedCount])
+    load();
+  }, [refreshSavedCount]);
 
   function deleteRecord(id) {
-    const next = wrappers.filter(w => w.id !== id)
-    setWrappers(next)
-    localStorage.setItem('cybershield-saved-encrypted', JSON.stringify(next))
-    setRecords(prev => prev.filter(r => r.id !== id))
-    if (refreshSavedCount) refreshSavedCount()
+    const next = wrappers.filter((w) => w.id !== id);
+    setWrappers(next);
+    localStorage.setItem("cybershield-saved-encrypted", JSON.stringify(next));
+    setRecords((prev) => prev.filter((r) => r.id !== id));
+    if (refreshSavedCount) refreshSavedCount();
   }
 
   return (
     <div className="card large-card">
-      <h2>My Records</h2>
-      {records.length === 0 ? <p>(no saved records)</p> : (
+      <h2>{t("records.title")}</h2>
+      {records.length === 0 ? (
+        <p>{t("records.empty")}</p>
+      ) : (
         <ul>
-          {records.map(r => (
+          {records.map((r) => (
             <li key={r.id} className="record-item">
-              <div><strong>{new Date(r.createdAt).toLocaleString()}</strong></div>
-              <div>{(r.plain.narrative || '').slice(0,200)}{(r.plain.narrative||'').length>200? '...':''}</div>
+              <div>
+                <strong>{new Date(r.createdAt).toLocaleString()}</strong>
+              </div>
+              <div>
+                {(r.plain.narrative || "").slice(0, 200)}
+                {(r.plain.narrative || "").length > 200 ? "..." : ""}
+              </div>
               <div className="record-actions">
-                <button onClick={() => {
-                  generatePDF(r.plain)
-                }}>Export PDF</button>
-                <button onClick={() => {
-                  // load record into editor
-                  if (setData && setStep) {
-                    setData(r.plain)
-                    setStep(1)
-                  }
-                }}>Edit</button>
-                <button onClick={() => deleteRecord(r.id)}>Delete</button>
+                <button
+                  onClick={() => {
+                    generatePDF(r.plain);
+                  }}
+                >
+                  {t("common.export_pdf")}
+                </button>
+                <button
+                  onClick={() => {
+                    // load record into editor
+                    if (setData && setStep) {
+                      setData(r.plain);
+                      setStep(1);
+                    }
+                  }}
+                >
+                  {t("common.edit")}
+                </button>
+                <button onClick={() => deleteRecord(r.id)}>
+                  {t("common.delete")}
+                </button>
               </div>
             </li>
           ))}
         </ul>
       )}
-      <div className="actions"><button onClick={onBack}>Back</button></div>
+      <div className="actions">
+        <button onClick={onBack}>Back</button>
+      </div>
     </div>
-  )
+  );
 }
 
-export default function MultiStepForm({ step, setStep, data, setData, refreshSavedCount }) {
-  const [showSuccessModal, setShowSuccessModal] = React.useState(false)
-  const [isUpdate, setIsUpdate] = React.useState(false)
+export default function MultiStepForm({
+  step,
+  setStep,
+  data,
+  setData,
+  refreshSavedCount,
+}) {
+  const [showSuccessModal, setShowSuccessModal] = React.useState(false);
+  const [isUpdate, setIsUpdate] = React.useState(false);
+  const { t } = useTranslation();
 
-  function start() { setStep(1) }
+  function start() {
+    setStep(1);
+  }
 
-  function next() { setStep(s => s + 1) }
+  function next() {
+    setStep((s) => s + 1);
+  }
 
   async function handleDownload(d) {
-    await generatePDF(d)
+    await generatePDF(d);
     // clear session draft after download to honor "session-only" behavior
-    sessionStorage.removeItem('cybershield-draft-session')
-    setData({ narrative: '', categories: [], platform: '', evidence: [] })
-    setStep(0)
+    sessionStorage.removeItem("cybershield-draft-session");
+    setData({ narrative: "", categories: [], platform: "", evidence: [] });
+    setStep(0);
   }
 
   async function handleSaveLocal(d) {
     try {
       // Initialize browser-based encryption on first save
-      let browserSalt = localStorage.getItem('cybershield-browser-salt')
+      let browserSalt = localStorage.getItem("cybershield-browser-salt");
       if (!browserSalt) {
-        browserSalt = await generateSalt()
-        localStorage.setItem('cybershield-browser-salt', browserSalt)
+        browserSalt = await generateSalt();
+        localStorage.setItem("cybershield-browser-salt", browserSalt);
       }
 
       // Derive a consistent key from browser salt + a default passphrase
-      const cryptoKey = await deriveKey('browser-local-default', browserSalt)
+      const cryptoKey = await deriveKey("browser-local-default", browserSalt);
 
       // Create and encrypt record
-      const now = new Date().toISOString()
-      const record = { id: d.id || Date.now(), createdAt: d.createdAt || now, updatedAt: d.id ? now : undefined, ...d }
-      
-      const encrypted = await encryptObject(record, cryptoKey)
-      const wrapper = { id: record.id, createdAt: record.createdAt, encrypted }
-      
-      const stored = JSON.parse(localStorage.getItem('cybershield-saved-encrypted') || '[]')
-      const idx = stored.findIndex(s => s.id === record.id)
-      
+      const now = new Date().toISOString();
+      const record = {
+        id: d.id || Date.now(),
+        createdAt: d.createdAt || now,
+        updatedAt: d.id ? now : undefined,
+        ...d,
+      };
+
+      const encrypted = await encryptObject(record, cryptoKey);
+      const wrapper = { id: record.id, createdAt: record.createdAt, encrypted };
+
+      const stored = JSON.parse(
+        localStorage.getItem("cybershield-saved-encrypted") || "[]"
+      );
+      const idx = stored.findIndex((s) => s.id === record.id);
+
       if (idx >= 0) {
-        stored[idx] = wrapper
+        stored[idx] = wrapper;
       } else {
-        stored.push(wrapper)
+        stored.push(wrapper);
       }
-      
-      localStorage.setItem('cybershield-saved-encrypted', JSON.stringify(stored))
-      if (refreshSavedCount) refreshSavedCount()
-      
+
+      localStorage.setItem(
+        "cybershield-saved-encrypted",
+        JSON.stringify(stored)
+      );
+      if (refreshSavedCount) refreshSavedCount();
+
       // Show success modal instead of alert
-      setIsUpdate(!!d.id)
-      setShowSuccessModal(true)
+      setIsUpdate(!!d.id);
+      setShowSuccessModal(true);
     } catch (e) {
-      console.error(e)
-      alert('Failed to encrypt and save the record.')
+      console.error(e);
+      alert("Failed to encrypt and save the record.");
     }
   }
 
   function closeSuccessModal() {
-    setShowSuccessModal(false)
-    setStep(0)
+    setShowSuccessModal(false);
+    setStep(0);
   }
 
-  if (step === 0) return <Home onStart={start} setData={setData} />
-  if (step === 1) return <DocumentForm data={data} setData={setData} onNext={next} />
-  if (step === 2) return <Guidance data={data} onNext={next} onBack={() => setStep(1)} />
-  if (step === 3) return (
-    <>
-      <Review data={data} onDownload={handleDownload} onSaveLocal={handleSaveLocal} onBack={() => setStep(0)} />
-      {showSuccessModal && (
-        <div className="modal-overlay">
-          <div className="success-modal">
-            <div className="success-icon">✓</div>
-            <h2>Record Saved Successfully!</h2>
-            <p className="success-message">
-              Your documentation has been encrypted and saved to your browser. You can find it anytime in the <strong>My Records</strong> page.
-            </p>
-            <div className="success-details">
-              <p>From there, you can:</p>
-              <ul>
-                <li><strong>Edit</strong> — Make changes to your documentation</li>
-                <li><strong>Export PDF</strong> — Download a copy to share or keep safe</li>
-                <li><strong>Delete</strong> — Remove the record if you no longer need it</li>
-              </ul>
+  if (step === 0) return <Home onStart={start} setData={setData} />;
+  if (step === 1)
+    return <DocumentForm data={data} setData={setData} onNext={next} />;
+  if (step === 2)
+    return <Guidance data={data} onNext={next} onBack={() => setStep(1)} />;
+  if (step === 3)
+    return (
+      <>
+        <Review
+          data={data}
+          onDownload={handleDownload}
+          onSaveLocal={handleSaveLocal}
+          onBack={() => setStep(0)}
+        />
+        {showSuccessModal && (
+          <div className="modal-overlay">
+            <div className="success-modal">
+              <div className="success-icon">✓</div>
+              <h2>{t("saved.title")}</h2>
+              <p className="success-message">{t("saved.message")}</p>
+              <div className="success-details">
+                <p>{t("saved.from_there")}</p>
+                <ul>
+                  <li>{t("saved.from_edit")}</li>
+                  <li>{t("saved.from_export")}</li>
+                  <li>{t("saved.from_delete")}</li>
+                </ul>
+              </div>
+              <button className="success-btn" onClick={closeSuccessModal}>
+                {t("saved.ok")}
+              </button>
             </div>
-            <button className="success-btn" onClick={closeSuccessModal}>OK, Got It</button>
           </div>
-        </div>
-      )}
-    </>
-  )
-  if (step === 4) return <MyRecords onBack={() => setStep(0)} refreshSavedCount={refreshSavedCount} setStep={setStep} setData={setData} />
-  return null
+        )}
+      </>
+    );
+  if (step === 4)
+    return (
+      <MyRecords
+        onBack={() => setStep(0)}
+        refreshSavedCount={refreshSavedCount}
+        setStep={setStep}
+        setData={setData}
+      />
+    );
+  return null;
 }

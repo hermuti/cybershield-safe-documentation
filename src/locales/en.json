@@ -1,0 +1,258 @@
+{
+  "site": {
+    "name": "CyberShield",
+    "tagline": "Privacy-first documentation for online harassment"
+  },
+  "nav": {
+    "back": "Back",
+    "my_records": "My Records",
+    "my_records_empty": "(empty)",
+    "proceed_save": "Proceed to Download / Save"
+  },
+  "footer": {
+    "line": "CyberShield — Privacy-first documentation",
+    "small": "This tool does not replace emergency, legal, or law enforcement services."
+  },
+  "home": {
+    "title": "You are not alone",
+    "lead": "CyberShield is a secure, private tool designed to empower you in the face of online harassment. We provide a survivor-centered space to take control of your experience.",
+    "cta_start": "Start Documenting — Take the first step",
+    "attack_identifier_title": "🛡️ The Attack Identifier",
+    "attack_help": "Click any shield to reveal a quick definition, examples, and immediate tips.",
+    "start_documenting_this": "Start Documenting this",
+    "close": "Close",
+    "intro": {
+      "card1": {
+        "title": "Private & Secure Documentation",
+        "desc": "Your safety is our priority. Document incidents in your own words—with or without evidence—in a completely confidential space."
+      },
+      "card2": {
+        "title": "Personalized Action Guidance",
+        "desc": "Receive clear, practical steps tailored to your specific situation and platform."
+      },
+      "card3": {
+        "title": "Control Your Records",
+        "desc": "Choose to download a one-time PDF or save encrypted records to your device."
+      }
+    },
+    "how_this_happens": "How this can happen",
+    "find_match": {
+      "title": "Find Your Match",
+      "help": "Not sure what happened? Below are short example scenarios — these are illustrative examples rather than primary action buttons. Tap any example to start documenting."
+    }
+  },
+  "examples": {
+    "doxing": { "title": "Private info was shared", "sub": "→ Doxing" },
+    "sextortion": {
+      "title": "Intimate images involved",
+      "sub": "→ Sextortion"
+    },
+    "impersonation": {
+      "title": "Someone pretending to be me",
+      "sub": "→ Impersonation"
+    }
+  },
+  "categories": {
+    "cyber_flashing": "Cyber flashing",
+    "cyber_stalking": "Cyber stalking",
+    "digital_voyeurism": "Digital voyeurism",
+    "doxing": "Doxing",
+    "gender_based_hate_speech": "Gender-based hate speech",
+    "identity_theft_impersonation": "Identity theft / Impersonation",
+    "morphing_transmogrification": "Morphing / Transmogrification",
+    "non_consenting_dissemination": "Non-consensual dissemination",
+    "non_consensual_dissemination": "Non-consensual dissemination",
+    "online_grooming": "Online grooming",
+    "online_sexual_harassment_bullying": "Online sexual harassment & bullying",
+    "online_threats_blackmail": "Online threats & blackmail",
+    "sextortion": "Sextortion",
+    "sexploitation": "Sexploitation",
+    "zoom_bombing": "Zoom bombing",
+    "other": "Other"
+  },
+  "attacks": {
+    "cyber_flashing": {
+      "title": "Cyber Flashing",
+      "short": "Unsolicited explicit images/videos sent to you",
+      "causes": [
+        "Direct messages from unknown accounts",
+        "Shared to group chats without consent",
+        "Someone posts an image tagging you"
+      ]
+    },
+    "digital_voyeurism": {
+      "title": "Digital Voyeurism",
+      "short": "Secret recording/sharing of private moments",
+      "causes": [
+        "Hidden camera or livestream capture",
+        "Screenshots taken during private calls",
+        "Recordings shared to others without consent"
+      ]
+    },
+    "morphing_transmogrification": {
+      "title": "Morphing",
+      "short": "Your photo edited into explicit content",
+      "causes": [
+        "Image taken and edited by a third party",
+        "AI tools used to place your likeness into new content",
+        "Someone reposts an altered image claiming it is you"
+      ]
+    },
+    "non_consenting_dissemination": {
+      "title": "Non-Consensual Dissemination",
+      "short": "Sharing intimate images without consent",
+      "causes": [
+        "A former partner shares private images",
+        "Hacked account leads to leaks",
+        "Someone downloads and reposts content without permission"
+      ]
+    },
+    "sexploitation": {
+      "title": "Sexploitation",
+      "short": "Coercing sexual acts or content through manipulation",
+      "causes": [
+        "Pressure or manipulation to perform sexual acts",
+        "Blackmail to force content creation",
+        "Threats or emotional coercion to obtain images"
+      ]
+    },
+    "cyber_stalking": {
+      "title": "Cyber Stalking",
+      "short": "Repeated, unwanted monitoring/contact",
+      "causes": [
+        "Repeated messages or comments across platforms",
+        "Using location tags or photos to follow movements",
+        "Creating false profiles to monitor you"
+      ]
+    },
+    "doxing": {
+      "title": "Doxing",
+      "short": "Publishing private info to harm you",
+      "causes": [
+        "Someone compiles public records and shares them",
+        "Posting screenshots with personal details",
+        "Leaking private conversations that include identifying info"
+      ]
+    },
+    "gender_based_hate_speech": {
+      "title": "Gender-Based Hate Speech",
+      "short": "Targeted abuse because of your gender",
+      "causes": [
+        "Comments targeting gender identity on public posts",
+        "Coordinated harassment campaigns focused on gender",
+        "Using slurs or threats in replies and DMs"
+      ]
+    },
+    "online_sexual_harassment_bullying": {
+      "title": "Online Sexual Harassment",
+      "short": "Unwanted sexual comments or advances",
+      "causes": [
+        "Repeated unsolicited sexual messages",
+        "Sexual comments on your public posts",
+        "Persistent requests or pressure in chat"
+      ]
+    },
+    "online_threats_blackmail": {
+      "title": "Online Threats & Blackmail",
+      "short": "Threats to expose or harm",
+      "causes": [
+        "Threats to release content unless you comply",
+        "Direct messages demanding money or actions",
+        "Public posts threatening exposure"
+      ]
+    },
+    "sextortion": {
+      "title": "Sextortion",
+      "short": "Pay or I will expose your intimate images",
+      "causes": [
+        "Someone threatens to share intimate content unless paid",
+        "Hacked accounts used to harvest compromising material",
+        "Scammers posing as lovers to extract media"
+      ]
+    },
+    "identity_theft_impersonation": {
+      "title": "Impersonation",
+      "short": "Someone pretending to be you",
+      "causes": [
+        "Fake profiles created in your name",
+        "Using your photos to set up accounts",
+        "Messages sent to others pretending to be you"
+      ]
+    },
+    "online_grooming": {
+      "title": "Online Grooming",
+      "short": "Building trust to manipulate (often minors)",
+      "causes": [
+        "Gradual relationship-building to lower defenses",
+        "Soliciting photos or private contact over time",
+        "Encouraging secret conversations away from parents/caregivers"
+      ]
+    },
+    "zoom_bombing": {
+      "title": "Zoom Bombing",
+      "short": "Intruding calls to harass with hate/obscenity",
+      "causes": [
+        "Uninvited participants join public meetings",
+        "Meeting links shared publicly or in insecure places",
+        "Screen-sharing abusive content during calls"
+      ]
+    }
+  },
+  "document": {
+    "title": "Document the Experience",
+    "welcome": "You're doing an important thing — documenting details helps you preserve an accurate record. Only include what you feel safe sharing.",
+    "q1_label": "1. What happened? (Your narrative)",
+    "q1_help": "Include dates, times, usernames, and exact messages where possible.",
+    "review_next": "Review & Next",
+    "q2_label": "2. Type of online abuse (Select all that apply)",
+    "q3_label": "3. Where it happened (Select primary platform)",
+    "q4_label": "4. Optional evidence (screenshots, files)",
+    "q4_help": "You are not required to upload anything. Text documentation is valid. If you do upload, keep copies in a secure place."
+  },
+  "review": {
+    "title": "Review Your Documentation",
+    "subtitle": "Here's what you're about to save or export. Make sure everything looks right.",
+    "no_files": "(no files attached)",
+    "none": "(none)"
+  },
+  "saved": {
+    "title": "Record Saved Successfully!",
+    "message": "Your documentation has been encrypted and saved to your browser. You can find it anytime in the My Records page.",
+    "ok": "OK, Got It",
+    "from_there": "From there, you can:",
+    "from_edit": "Edit — Make changes to your documentation",
+    "from_export": "Export PDF — Download a copy to share or keep safe",
+    "from_delete": "Delete — Remove the record if you no longer need it"
+  },
+  "actions": {
+    "download_pdf": "⬇️ Download PDF",
+    "save_encrypted": "💾 Save Encrypted",
+    "download_pdf_short": "⬇️ Download PDF",
+    "save_encrypted_short": "💾 Save Encrypted"
+  },
+  "common": {
+    "close": "Close",
+    "edit": "Edit",
+    "delete": "Delete",
+    "export_pdf": "Export PDF"
+  },
+  "records": {
+    "title": "My Records",
+    "empty": "(no saved records)"
+  }
+  ,
+  "guidance": {
+    "title": "Your Personalized Action Plan",
+    "based_on": "Based on your report of",
+    "on_platform": "on",
+    "disclaimer": "here are tailored steps to consider. You choose what feels right for you.",
+    "full": "Based on your report of {abuseList} on {platform}, here are tailored steps to consider. You choose what feels right for you.",
+    "for_prefix": "For",
+    "immediate_title": "1. Immediate Actions",
+    "report_title": "2. Report to the Platform",
+    "evidence_title": "3. Document & Preserve Evidence",
+    "support_title": "4. Seek Support",
+    "remember_prefix": "Remember:",
+    "remember_note": "You are not alone. This documentation is for you—to help you take control and make informed choices. Share it with trusted people, law enforcement, or legal counsel as you see fit."
+  }
+}
