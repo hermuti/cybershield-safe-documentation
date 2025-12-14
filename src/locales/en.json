@@ -239,8 +239,7 @@
   "records": {
     "title": "My Records",
     "empty": "(no saved records)"
-  }
-  ,
+  },
   "guidance": {
     "title": "Your Personalized Action Plan",
     "based_on": "Based on your report of",

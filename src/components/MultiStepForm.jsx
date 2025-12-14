@@ -370,35 +370,46 @@ function DocumentForm({ data, setData, onNext }) {
 function Guidance({ data, onNext, onBack }) {
   // Get personalized guidance based on user's selections
   const { t, lang } = useTranslation();
-  const guidance = getPersonalizedGuidance(data.categories, data.platform, lang);
-  const platform = data.platform || (lang === "am" ? "አልታወቀ መድረክ" : "an unknown platform");
+  const guidance = getPersonalizedGuidance(
+    data.categories,
+    data.platform,
+    lang
+  );
+  const platform =
+    data.platform || (lang === "am" ? "አልታወቀ መድረክ" : "an unknown platform");
   // localize the abuse list (use category keys -> localized category labels)
   function slugify(s) {
     return String(s || "")
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, "_")
-      .replace(/^_|_$/g, "")
+      .replace(/^_|_$/g, "");
   }
-  const abuseList = (guidance.abusesAffected || []).map((c) => {
-    const key = slugify(c)
-    const label = t(`categories.${key}`)
-    return label || c
-  }).join(" & ");
+  const abuseList = (guidance.abusesAffected || [])
+    .map((c) => {
+      const key = slugify(c);
+      const label = t(`categories.${key}`);
+      return label || c;
+    })
+    .join(" & ");
 
   return (
     <div className="card large-card">
       <h2>{t("guidance.title")}</h2>
       <p>
         {(() => {
-          const tmpl = t("guidance.full")
+          const tmpl = t("guidance.full");
           if (tmpl && tmpl.includes("{abuseList}")) {
-            return tmpl.replace("{abuseList}", abuseList).replace("{platform}", platform)
+            return tmpl
+              .replace("{abuseList}", abuseList)
+              .replace("{platform}", platform);
           }
           return (
             <>
-              {t("guidance.based_on")} <strong>{abuseList}</strong> {t("guidance.on_platform")} <strong>{platform}</strong>, {t("guidance.disclaimer")}
+              {t("guidance.based_on")} <strong>{abuseList}</strong>{" "}
+              {t("guidance.on_platform")} <strong>{platform}</strong>,{" "}
+              {t("guidance.disclaimer")}
             </>
-          )
+          );
         })()}
       </p>
 
@@ -418,13 +429,19 @@ function Guidance({ data, onNext, onBack }) {
         </div>
       )}
 
-          {Object.entries(guidance.sections).map(([categoryKey, sections]) => (
-            <div key={categoryKey} className="guidance-section">
-              {categoryKey !== "generic" && (
-                <h3>
-                  {t("guidance.for_prefix")} {t(`categories.${categoryKey.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_|_$/g, "")}`)}
-                </h3>
+      {Object.entries(guidance.sections).map(([categoryKey, sections]) => (
+        <div key={categoryKey} className="guidance-section">
+          {categoryKey !== "generic" && (
+            <h3>
+              {t("guidance.for_prefix")}{" "}
+              {t(
+                `categories.${categoryKey
+                  .toLowerCase()
+                  .replace(/[^a-z0-9]+/g, "_")
+                  .replace(/^_|_$/g, "")}`
               )}
+            </h3>
+          )}
 
           {sections.immediate && (
             <>
@@ -462,7 +479,8 @@ function Guidance({ data, onNext, onBack }) {
 
       <div className="guidance-final-note">
         <p>
-          <strong>{t("guidance.remember_prefix")}</strong> {t("guidance.remember_note")}
+          <strong>{t("guidance.remember_prefix")}</strong>{" "}
+          {t("guidance.remember_note")}
         </p>
       </div>
 
